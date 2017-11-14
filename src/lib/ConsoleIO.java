@@ -258,8 +258,8 @@ public class ConsoleIO {
 			out += i + ") " + s + "\n";
 		}
 		System.out.println(out + "\nEnter the number for your selection:");
-		try {
-			while (true) {
+		while (true) {
+			try {
 				in = Integer.parseInt(eat.readLine());
 				if (withQuit && (in <= options.length)) {
 					return in;
@@ -269,13 +269,11 @@ public class ConsoleIO {
 					System.out.println("Thats not an option. Try again.");
 					continue;
 				}
-			}
-		} catch (IOException | NumberFormatException e) {
-			System.out.println("Somehow you managed to break it. Great going.");
-			e.printStackTrace();
-		}
+			} catch (IOException | NumberFormatException e) {
+				System.out.println("Somehow you managed to break it. Great going.");
 
-		return in;
+			}
+		}
 
 	}
 
