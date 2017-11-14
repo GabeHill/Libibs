@@ -248,7 +248,7 @@ public class ConsoleIO {
 		BufferedReader eat = new BufferedReader(new InputStreamReader(System.in));
 		String out = "";
 		int in = 0;
-		;
+
 		if (withQuit) {
 			out += "0) Exit\n";
 		}
