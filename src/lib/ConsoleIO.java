@@ -31,11 +31,9 @@ public class ConsoleIO {
 	 * @return the boolean value
 	 */
 	public static boolean promptForBool(String prompt, String trueString, String falseString) {
-		BufferedReader eat = new BufferedReader(new InputStreamReader(System.in));
-		System.out.println(prompt);
 		while (true) {
 			try {
-				String in = eat.readLine();
+				final String in = promptForInput(prompt, false);
 				if (in.equalsIgnoreCase(trueString)) {
 					return true;
 				} else if (in.equalsIgnoreCase(falseString)) {
@@ -44,13 +42,11 @@ public class ConsoleIO {
 					System.out.println("Thats not an option. Try again.");
 					continue;
 				}
-
-			} catch (IOException | NumberFormatException e) {
+			} catch (final NumberFormatException e) {
 				System.out.println("Somehow you managed to break it. Great going.");
 				e.printStackTrace();
 			}
 		}
-
 	}
 
 	/**
@@ -67,7 +63,6 @@ public class ConsoleIO {
 	 */
 	public static byte promptForByte(String prompt, byte min, byte max) {
 		return (byte) promptForDouble(prompt, min, max);
-
 	}
 
 	/**
@@ -83,12 +78,12 @@ public class ConsoleIO {
 	 * @return the char value
 	 */
 	public static char promptForChar(String prompt, char min, char max) {
-		BufferedReader eat = new BufferedReader(new InputStreamReader(System.in));
+		final BufferedReader eat = new BufferedReader(new InputStreamReader(System.in));
 		char v = ' ';
 		System.out.println(prompt);
 		try {
 			while (true) {
-				String in = eat.readLine();
+				final String in = eat.readLine();
 				v = in.charAt(0);
 				if (v >= min) {
 					return v;
@@ -103,9 +98,7 @@ public class ConsoleIO {
 			System.out.println("Somehow you managed to break it. Great going.");
 			e.printStackTrace();
 		}
-
 		return v;
-
 	}
 
 	/**
@@ -121,28 +114,23 @@ public class ConsoleIO {
 	 * @return the double value
 	 */
 	public static double promptForDouble(String prompt, double min, double max) {
-		BufferedReader eat = new BufferedReader(new InputStreamReader(System.in));
-		double in = 0;
+		final BufferedReader eat = new BufferedReader(new InputStreamReader(System.in));
+		double in;
 		System.out.println(prompt);
-		try {
-			while (true) {
+		while (true) {
+			try {
 				in = Double.parseDouble(eat.readLine());
-				if (in >= min) {
-					return in;
-				} else if (in <= max) {
+				if (in >= min && in <= max) {
 					return in;
 				} else {
 					System.out.println("Thats not an option. Try again.");
 					continue;
 				}
+			} catch (IOException | NumberFormatException e) {
+				System.out.println("Somehow you managed to break it. Great going.");
+				e.printStackTrace();
 			}
-		} catch (IOException | NumberFormatException e) {
-			System.out.println("Somehow you managed to break it. Great going.");
-			e.printStackTrace();
 		}
-
-		return in;
-
 	}
 
 	/**
@@ -158,9 +146,7 @@ public class ConsoleIO {
 	 * @return the float value
 	 */
 	public static float promptForFloat(String prompt, float min, float max) {
-
 		return (float) promptForDouble(prompt, min, max);
-
 	}
 
 	/**
@@ -175,8 +161,7 @@ public class ConsoleIO {
 	 * @return the input from the user as a String
 	 */
 	public static String promptForInput(String prompt, boolean allowEmpty) {
-
-		BufferedReader eat = new BufferedReader(new InputStreamReader(System.in));
+		final BufferedReader eat = new BufferedReader(new InputStreamReader(System.in));
 		System.out.println(prompt);
 		String kek;
 		try {
@@ -185,19 +170,16 @@ public class ConsoleIO {
 				if (kek != null) {
 					if (kek.equalsIgnoreCase("") && !allowEmpty) {
 						System.out.println("Yo you wrong there dude. Try it all again.");
-
 					} else {
 						return kek;
 					}
 				}
 			}
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			System.out.println("Somehow you managed to break it. Great going.");
 			e.printStackTrace();
 		}
-
 		return null;
-
 	}
 
 	/**
@@ -214,7 +196,6 @@ public class ConsoleIO {
 	 */
 	public static int promptForInt(String prompt, int min, int max) {
 		return (int) promptForDouble(prompt, min, max);
-
 	}
 
 	/**
@@ -231,7 +212,6 @@ public class ConsoleIO {
 	 */
 	public static long promptForLong(String prompt, long min, long max) {
 		return (long) promptForDouble(prompt, min, max);
-
 	}
 
 	/**
@@ -245,36 +225,16 @@ public class ConsoleIO {
 	 * @return the int of the selection made by the user
 	 */
 	public static int promptForMenuSelection(String[] options, boolean withQuit) {
-		BufferedReader eat = new BufferedReader(new InputStreamReader(System.in));
 		String out = "";
-		int in = 0;
-
 		if (withQuit) {
 			out += "0) Exit\n";
 		}
 		int i = 0;
-		for (String s : options) {
+		for (final String s : options) {
 			i++;
 			out += i + ") " + s + "\n";
 		}
-		System.out.println(out + "\nEnter the number for your selection:");
-		while (true) {
-			try {
-				in = Integer.parseInt(eat.readLine());
-				if (withQuit && (in <= options.length)) {
-					return in;
-				} else if ((i <= options.length) && (i > 0)) {
-					return in;
-				} else {
-					System.out.println("Thats not an option. Try again.");
-					continue;
-				}
-			} catch (IOException | NumberFormatException e) {
-				System.out.println("Somehow you managed to break it. Great going.");
-
-			}
-		}
-
+		return promptForInt(out + "\nEnter the number for your selection:", withQuit ? 0 : 1, i);
 	}
 
 	/**
