@@ -32,19 +32,15 @@ public class ConsoleIO {
 	 */
 	public static boolean promptForBool(String prompt, String trueString, String falseString) {
 		while (true) {
-			try {
-				final String in = promptForInput(prompt, false);
-				if (in.equalsIgnoreCase(trueString)) {
-					return true;
-				} else if (in.equalsIgnoreCase(falseString)) {
-					return false;
-				} else {
-					System.out.println("Thats not an option. Try again.");
-					continue;
-				}
-			} catch (final NumberFormatException e) {
-				System.out.println("Somehow you managed to break it. Great going.");
-				e.printStackTrace();
+			final String in = promptForInput(prompt, false);
+
+			if (in.equalsIgnoreCase(trueString)) {
+				return true;
+			} else if (in.equalsIgnoreCase(falseString)) {
+				return false;
+			} else {
+				System.out.println("Thats not an option. Try again.");
+				continue;
 			}
 		}
 	}
@@ -85,18 +81,15 @@ public class ConsoleIO {
 			while (true) {
 				final String in = eat.readLine();
 				v = in.charAt(0);
-				if (v >= min) {
-					return v;
-				} else if (v <= max) {
+				if (v >= min && v <= max) {
 					return v;
 				} else {
-					System.out.println("Thats not an option. Try again.");
+					System.out.println("Out of bounds. Try again.");
 					continue;
 				}
 			}
 		} catch (IOException | IndexOutOfBoundsException e) {
-			System.out.println("Somehow you managed to break it. Great going.");
-			e.printStackTrace();
+			System.out.println("You broke it. Try it again.");
 		}
 		return v;
 	}
@@ -123,12 +116,11 @@ public class ConsoleIO {
 				if (in >= min && in <= max) {
 					return in;
 				} else {
-					System.out.println("Thats not an option. Try again.");
+					System.out.println("Out of bounds. Try again.");
 					continue;
 				}
 			} catch (IOException | NumberFormatException e) {
-				System.out.println("Somehow you managed to break it. Great going.");
-				e.printStackTrace();
+				System.out.println("You broke it. Try it again.");
 			}
 		}
 	}
@@ -166,18 +158,17 @@ public class ConsoleIO {
 		String kek;
 		try {
 			while (true) {
-				kek = eat.readLine();
+				kek = eat.readLine().trim();
 				if (kek != null) {
 					if (kek.equalsIgnoreCase("") && !allowEmpty) {
-						System.out.println("Yo you wrong there dude. Try it all again.");
+						System.out.println("Yo you wrong there dude. Try it again.");
 					} else {
 						return kek;
 					}
 				}
 			}
 		} catch (final IOException e) {
-			System.out.println("Somehow you managed to break it. Great going.");
-			e.printStackTrace();
+			System.out.println("You broke it. Try it again.");
 		}
 		return null;
 	}
