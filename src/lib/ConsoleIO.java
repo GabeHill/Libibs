@@ -160,8 +160,8 @@ public class ConsoleIO {
 			while (true) {
 				kek = eat.readLine().trim();
 				if (kek != null) {
-					if (kek.equalsIgnoreCase("") && !allowEmpty) {
-						System.out.println("Yo you wrong there dude. Try it again.");
+					if (kek.equals("") && !allowEmpty) {
+						System.out.println("Can't be empty. Try it again.");
 					} else {
 						return kek;
 					}

@@ -8,16 +8,21 @@ import java.util.List;
 
 public class Filer {
 	public static String readFile(String filePath) throws IOException {
-		if (filePath == null) {
+		try {
+			final String in = new String(Files.readAllBytes(Paths.get(filePath)));
+			return in;
+		} catch (final FileNotFoundException e) {
 			throw new FileNotFoundException("No file specified.");
 		}
-		String s = "";
-		final List<String> in = Files.readAllLines(Paths.get(filePath));
-		for (final String string : in) {
-			s += string;
-		}
-		return s;
+	}
 
+	public static List<String> readFileToList(String filePath) throws IOException {
+		try {
+			final List<String> in = (Files.readAllLines(Paths.get(filePath)));
+			return in;
+		} catch (final FileNotFoundException e) {
+			throw new FileNotFoundException("No file specified.");
+		}
 	}
 
 	public static void writeToFile(String filePath, String output) {

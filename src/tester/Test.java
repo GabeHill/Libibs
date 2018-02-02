@@ -1,13 +1,12 @@
 package tester;
 
-import lib.SimpleMath;
+import lib.ConsoleIO;
 
 public class Test {
 
 	public static void main(String[] args) {
-		final int i = SimpleMath.parseInt("2147483648");
-
-		System.out.println(i);
+		final String s = ConsoleIO.promptForInput("aaa", false);
+		System.out.println(s);
 	}
 
 }
