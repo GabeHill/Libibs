@@ -3,6 +3,8 @@ package lib;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Collection;
+import java.util.Map;
 
 public class ConsoleIO {
 
@@ -11,6 +13,46 @@ public class ConsoleIO {
 	// cause
 	// other issues. Also, catch ALL IOExceptions and NumberFormatExceptions.
 	// Do not simply mark the method with a "throws" statement
+
+	public static void print(Collection<?> c) {
+		c.forEach(v -> System.out.print(v.toString()));
+	}
+
+	public static void print(Map<?, ?> c) {
+		c.forEach((k, v) -> System.out.print(k.toString() + ": " + v.toString()));
+	}
+
+	public static <T> void print(T s) {
+		System.out.print(s.toString());
+	}
+
+	public static <T> void print(T[] c) {
+		for (final T t : c) {
+			System.out.println(t.toString());
+		}
+	}
+
+	public static void printErr(String s) {
+		System.err.println(s);
+	}
+
+	public static void printLn(Collection<?> c) {
+		c.forEach(v -> System.out.println(v.toString()));
+	}
+
+	public static void printLn(Map<?, ?> c) {
+		c.forEach((k, v) -> System.out.println(k.toString() + ": " + v.toString()));
+	}
+
+	public static <T> void printLn(T s) {
+		System.out.println(s.toString());
+	}
+
+	public static <T> void printLn(T[] c) {
+		for (final T t : c) {
+			System.out.println(t.toString());
+		}
+	}
 
 	/**
 	 * Generates a prompt that expects the user to enter one of two responses that
