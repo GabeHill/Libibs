@@ -20,12 +20,13 @@ public class ProgramUtil {
 		}
 	}
 
-	public static Integer parseInt(String input) {
+	public static int parseInt(String input) throws NumberFormatException {
 		final TryParseIntResult t = tryParseInt(input);
 		if (t.didParse) {
 			return t.result;
+		} else {
+			throw new NumberFormatException("String was not properly formatted for an int.");
 		}
-		return null;
 	}
 
 	public static String readFile(String filePath) throws IOException {
@@ -53,7 +54,6 @@ public class ProgramUtil {
 			final char[] c = input.trim().toCharArray();
 
 			if (c.length > 0) {
-				final char[] check = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 				int i = 0;
 				final List<Character> nums = new ArrayList<>();
 
@@ -61,13 +61,20 @@ public class ProgramUtil {
 					i++;
 					negative = true;
 				}
-
+				boolean flag = false;
 				for (; i < c.length; i++) {
-					for (final char element : check) {
-						if (element == c[i]) {
-							nums.add(c[i]);
-						}
+
+					if (Character.isDigit(c[i])) {
+						nums.add(c[i]);
+					} else {
+						flag = true;
 					}
+
+				}
+
+				if (nums.size() == 0 || flag) {
+					return new TryParseIntResult(false, null);
+
 				}
 
 				final char[] a = new char[nums.size()];
@@ -79,14 +86,14 @@ public class ProgramUtil {
 				Integer go = null;
 				try {
 					go = new Integer(res);
+					if (negative) {
+						go = new Integer(go * -1);
+					}
+					return new TryParseIntResult(true, go);
 				} catch (final NumberFormatException e) {
-					System.err.println("The input is not properly formatted for an integer.");
 					return new TryParseIntResult(false, null);
 				}
-				if (negative) {
-					go *= -1;
-				}
-				return new TryParseIntResult(true, go);
+
 			}
 		}
 		return new TryParseIntResult(false, null);
@@ -99,7 +106,7 @@ public class ProgramUtil {
 		try {
 			Files.write(Paths.get(filePath), output.getBytes());
 		} catch (final IOException e) {
-			throw new FileNotFoundException("No file at specified path.]");
+			throw new FileNotFoundException("No file at specified path.");
 		}
 
 	}
